@@ -1,11 +1,17 @@
+$color-blue: #6b76ff
+$color-dark-blue: #0000b2
+$color-red: #ff1919
+$color-green: #008000
+$color-white: #ffffff
+
 .flex-container
-  display: flex;
-  flex-wrap: nowrap;
+  display: flex
+  flex-wrap: nowrap
 
 .flex-container
   div
-    width: 100px;
-    margin: 10px;
+    width: 100px
+    margin: 10px
 
 .flex-container
   .flex-col-6
@@ -15,6 +21,29 @@
   .flex-col-3
     width: 25%
 
-.flex-button-primary
-  background-color: blue
+.flex-container
+  .flex-btn
+    width: 100%
+    padding: 1em
+    font-size: .9em
+    margin: .3em
+    color: $color-white
+    text-decoration: none
+    flex-grow: 1
+    text-align: center
+    font-weight: 600
 
+.flex-btn-default
+  background: #999
+
+.flex-btn-info
+  background-color: $color-blue
+
+.flex-btn-primary
+  background-color: $color-dark-blue
+
+.flex-btn-red
+  background-color: $color-red
+
+.flex-btn-green
+  background-color: $color-green

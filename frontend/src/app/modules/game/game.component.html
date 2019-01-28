@@ -1,26 +1,30 @@
 <div class="flex-container">
   <div class="flex-col-6">
-    Jogador: <app-hp-bar [hp]="hpPlayer"></app-hp-bar>
+    Jogador:
+    <app-hp-bar
+      [hp]="hpPlayer"
+      [progress]="hpPlayer">
+    </app-hp-bar>
   </div>
   <div class="flex-col-6">
-    Monstro: <app-hp-bar [hp]="hpMonster"></app-hp-bar>
+    Monstro: <app-hp-bar [hp]="hpMonster" [progress]="hpPlayer"></app-hp-bar>
   </div>
 </div>
 
 <div class="flex-container">
-  <div class="flex-col-3"><button (click)="attack(PLAYER)">Ataque</button></div>
+  <div class="flex-col-3"><button class="flex-btn flex-btn-info" (click)="attack(PLAYER)">Ataque</button></div>
 
   <div class="flex-col-3">
-    <button (click)="specialAttack(PLAYER)" [disabled]="disabledSpecialAttack">
+    <button class="flex-btn flex-btn-red" (click)="specialAttack(PLAYER)" [disabled]="disabledSpecialAttack">
       Ataque Especial
     </button>
   </div>
 
   <div class="flex-col-3">
-    <button (click)="heal(PLAYER)" [disabled]="hpPlayer == HP_MAX">
+    <button class="flex-btn flex-btn-green" (click)="heal(PLAYER)" [disabled]="hpPlayer == HP_MAX">
       Curar
     </button>
   </div>
 
-  <div class="flex-col-3"><button (click)="quit()">Desistir</button></div>
+  <div class="flex-col-3"><button class="flex-btn flex-btn-primary" (click)="quit()">Desistir</button></div>
 </div>

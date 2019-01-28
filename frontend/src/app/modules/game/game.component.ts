@@ -17,9 +17,9 @@ export class GameComponent implements OnInit {
   totalShifts: number = 0;
   disabledSpecialAttack: boolean = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   randomValue(start: number, end: number) {
     return Math.floor(Math.random() * (end - start + 1)) + start;
@@ -35,7 +35,7 @@ export class GameComponent implements OnInit {
     } else {
       this.hpPlayer -= this.randomValue(5, 8);
 
-      this.shift(this.PLAYER);
+      this.shift(this.MONSTER);
     }
   }
 
@@ -50,24 +50,28 @@ export class GameComponent implements OnInit {
     } else {
       this.hpPlayer -= this.randomValue(7, 11);
 
-      this.shift(this.PLAYER);
+      this.shift(this.MONSTER);
     }
   }
 
   heal(type: number) {
-    //if (this.hpPlayer < this.HP_MAX) {
-    this.timeAttackPlayer += 1;
+    if (this.hpPlayer < this.HP_MAX || this.hpMonster < this.HP_MAX) {
+      this.timeAttackPlayer += 1;
 
-    if (type === this.PLAYER) {
-      this.hpPlayer += this.randomValue(5, 10);
+      if (type === this.PLAYER) {
+        this.hpPlayer += this.randomValue(5, 10);
 
-      this.shift(this.PLAYER);
-    } else {
-      this.hpMonster += this.randomValue(5, 10);
+        this.shift(this.PLAYER);
+      } else {
+        this.hpMonster += this.randomValue(5, 10);
 
-      this.shift(this.PLAYER);
+        if (this.hpMonster > this.HP_MAX) {
+          this.hpMonster = this.HP_MAX;
+        }
+
+        this.shift(this.MONSTER);
+      }
     }
-    //}
   }
 
   shift(type: number) {
