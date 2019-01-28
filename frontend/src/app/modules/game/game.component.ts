@@ -31,9 +31,11 @@ export class GameComponent implements OnInit {
     if (type === this.PLAYER) {
       this.hpMonster -= this.randomValue(5, 8);
 
-      this.shift();
+      this.shift(this.PLAYER);
     } else {
       this.hpPlayer -= this.randomValue(5, 8);
+
+      this.shift(this.PLAYER);
     }
   }
 
@@ -44,9 +46,11 @@ export class GameComponent implements OnInit {
     if (type === this.PLAYER) {
       this.hpMonster -= this.randomValue(7, 11);
 
-      this.shift();
+      this.shift(this.PLAYER);
     } else {
       this.hpPlayer -= this.randomValue(7, 11);
+
+      this.shift(this.PLAYER);
     }
   }
 
@@ -57,16 +61,22 @@ export class GameComponent implements OnInit {
     if (type === this.PLAYER) {
       this.hpPlayer += this.randomValue(5, 10);
 
-      this.shift();
+      this.shift(this.PLAYER);
     } else {
       this.hpMonster += this.randomValue(5, 10);
+
+      this.shift(this.PLAYER);
     }
     //}
   }
 
-  shift() {
-    console.log("total turno", this.totalShifts);
-    console.log("vezes jogadas", this.timeAttackPlayer);
+  shift(type: number) {
+    console.log(
+      "total turno",
+      this.totalShifts,
+      " - vezes jogadas",
+      this.timeAttackPlayer
+    );
     console.log("-------------------------------------");
     if (this.hpMonster <= 0) {
       console.log("VOCÊ VENCEU");
@@ -76,11 +86,14 @@ export class GameComponent implements OnInit {
       if (this.timeAttackPlayer % 2 === 0) {
         this.totalShifts += 1;
 
-        if (this.timeAttackPlayer % 4 === 0){
+        console.log(this.disabledSpecialAttack);
+        if (this.disabledSpecialAttack && this.timeAttackPlayer % 4 === 0) {
           this.disabledSpecialAttack = false;
         }
 
-        this.attackMonster();
+        if (type === this.PLAYER) {
+          this.attackMonster();
+        }
       }
     }
   }
