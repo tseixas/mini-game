@@ -1,4 +1,4 @@
-# Player-VS-Monster
+# Mini-game: Player VS Monster
 Simple game using Angular 7, NodeJS, Bootstrap 4 e FlexBox.
 
 
