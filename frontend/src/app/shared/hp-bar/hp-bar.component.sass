@@ -1,0 +1,40 @@
+$pg-default-bg: #EEE
+$bar-default-bg: #3798d9
+$bar-info-bg: #9575cd
+
+.flex-progress
+  width: 100%
+  margin-bottom: 20px
+
+  .flex-bar
+    position: relative
+    overflow: hidden
+    width: 100%
+
+  .flex-progress-bar
+    display: block
+    float: left
+    width: 0%
+    height: 100%
+    background: $bar-default-bg
+    transition: width 0.8s ease-in-out
+
+  .flex-progress-label
+    position: absolute
+    overflow: hidden
+    left: 0px
+    right: 0px
+    font-size: 14px
+    text-align: center
+
+  .flex-progress-info
+    background-color: $bar-info-bg !important
+
+.flex-bar
+  background-color: $pg-default-bg
+
+  .flex-progress-bar
+    height: 18px
+
+  .flex-progress-label
+    line-height: 18px

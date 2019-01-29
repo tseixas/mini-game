@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { HomeComponent } from './home/home.component';
 import { RankingComponent } from './ranking/ranking.component';
@@ -16,6 +17,8 @@ import { SharedModule } from '../shared/shared.module';
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     SharedModule
   ],
   exports: [

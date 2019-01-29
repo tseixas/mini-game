@@ -1,9 +1,7 @@
 <div class="flex-container">
   <div class="flex-col-6">
     Jogador:
-    <app-hp-bar
-      [hp]="hpPlayer"
-      [progress]="hpPlayer">
+    <app-hp-bar [hp]="hpPlayer" [progress]="hpPlayer">
     </app-hp-bar>
   </div>
   <div class="flex-col-6">
@@ -12,19 +10,46 @@
 </div>
 
 <div class="flex-container">
-  <div class="flex-col-3"><button class="flex-btn flex-btn-info" (click)="attack(PLAYER)">Ataque</button></div>
+  <div class="flex-col-3" *ngIf="(hpPlayer > 0 && hpPlayer <= 100) || (hpMonster > 0 && hpMonster <= 100)">
+    <button class="flex-btn flex-btn-info" (click)="attack(PLAYER)">Ataque</button>
+  </div>
 
-  <div class="flex-col-3">
-    <button class="flex-btn flex-btn-red" (click)="specialAttack(PLAYER)" [disabled]="disabledSpecialAttack">
+  <div class="flex-col-3" *ngIf="(hpPlayer > 0 && hpPlayer <= 100) || (hpMonster > 0 && hpMonster <= 100)">
+    <button class="flex-btn flex-btn-red" (click)="specialAttack(PLAYER)" [disabled]="specialAttackPlayer" [ngStyle]="{'background-color': specialAttackPlayer ? 'gray' : ''}">
       Ataque Especial
     </button>
   </div>
 
-  <div class="flex-col-3">
-    <button class="flex-btn flex-btn-green" (click)="heal(PLAYER)" [disabled]="hpPlayer == HP_MAX">
+  <div class="flex-col-3" *ngIf="(hpPlayer > 0 && hpPlayer <= 100) || (hpMonster > 0 && hpMonster <= 100)">
+    <button class="flex-btn flex-btn-green" (click)="heal(PLAYER)" [disabled]="hpPlayer >= HP_MAX" [ngStyle]="{'background-color': hpPlayer >= HP_MAX ? 'gray' : ''}">
       Curar
     </button>
   </div>
 
-  <div class="flex-col-3"><button class="flex-btn flex-btn-primary" (click)="quit()">Desistir</button></div>
+  <div class="flex-col-3" *ngIf="hpPlayer <= 0 || hpMonster <= 0">
+    <button class="flex-btn flex-btn-green" (click)="restart()">
+      Jogar Novamente
+    </button>
+  </div>
+
+  <div class="flex-col-3">
+    <button class="flex-btn flex-btn-primary" (click)="goRanking()" *ngIf="hpPlayer <= 0 || hpMonster <=0">
+      Sair
+    </button>
+    <button class="flex-btn flex-btn-primary" (click)="quit()" *ngIf="(hpPlayer > 0 && hpPlayer <= 100) || (hpMonster > 0 && hpMonster <= 100)">
+      Desistir
+    </button>
+  </div>
 </div>
+
+ <div class="flex-container">
+    <div class="flex-col-12" style="text-align: center">
+      <h2>LOGS</h2>
+    </div>
+  </div>
+
+  <div class="flex-container" *ngFor="let log of logs">
+    <div class="flex-col-12 flex-label"
+    [ngClass]="log.status == 'attack' ? 'flex-btn-info' : (log.status == 'specialAttack' ? 'flex-btn-red' : (log.status == 'heal' ? 'flex-btn-green' : 'flex-btn-red'))">
+    {{log.log}}</div>
+  </div>

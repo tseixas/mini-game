@@ -11,12 +11,16 @@
   margin: 10px;
 }
 
+.flex-container .flex-col-3 {
+  width: 25%;
+}
+
 .flex-container .flex-col-6 {
   width: 50%;
 }
 
-.flex-container .flex-col-3 {
-  width: 25%;
+.flex-container .flex-col-12 {
+  width: 100%;
 }
 
 .flex-container .flex-btn {

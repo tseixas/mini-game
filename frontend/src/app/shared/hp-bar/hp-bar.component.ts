@@ -22,9 +22,11 @@ export class HpBarComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(change: SimpleChanges) {
-    const hp = change.hp.currentValue;
-    console.log('change', hp);
+    //console.log('change', change);
+    if (change.hp) {
+      const hp = change.hp.currentValue;
 
-    this.updateBar(hp);
+      this.updateBar(hp);
+    }
   }
 }

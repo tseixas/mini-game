@@ -1,5 +1,19 @@
-<div class="row">
-  <div class="col-sm-12">
-    <button class="btn btn-primary" routerLink="/game">INICIAR JOGO</button>
+<div class="card">
+  <div class="card-body">
+    <form [formGroup]="form" novalidate>
+      <div class="form-group">
+        <label class="col-md-4">Nome do jogador:</label>
+        <input type="text" class="form-control" formControlName="playerName" #playerName />
+      </div>
+      <div *ngIf="form.controls['playerName'].invalid && (form.controls['playerName'].dirty || form.controls['playerName'].touched)"
+        class="alert alert-danger">
+        <div *ngIf="form.controls['playerName'].errors.required">
+          Person Name is required.
+        </div>
+      </div>
+      <div class="form-group">
+        <button type="submit" [disabled]="form.pristine || form.invalid" class="btn btn-primary">INICIAR JOGO</button>
+      </div>
+    </form>
   </div>
 </div>

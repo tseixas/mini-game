@@ -1,1 +1,46 @@
-/* No CSS *//*# sourceMappingURL=hp-bar.component.css.map */
+.flex-progress {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.flex-progress .flex-bar {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.flex-progress .flex-progress-bar {
+  display: block;
+  float: left;
+  width: 0%;
+  height: 100%;
+  background: #3798d9;
+  -webkit-transition: width 0.8s ease-in-out;
+  transition: width 0.8s ease-in-out;
+}
+
+.flex-progress .flex-progress-label {
+  position: absolute;
+  overflow: hidden;
+  left: 0px;
+  right: 0px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.flex-progress .flex-progress-info {
+  background-color: #9575cd !important;
+}
+
+.flex-bar {
+  background-color: #EEE;
+}
+
+.flex-bar .flex-progress-bar {
+  height: 18px;
+}
+
+.flex-bar .flex-progress-label {
+  line-height: 18px;
+}
+/*# sourceMappingURL=hp-bar.component.css.map */
