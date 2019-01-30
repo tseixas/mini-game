@@ -8,7 +8,7 @@
 
 .flex-container div {
   width: 100px;
-  margin: 10px;
+  margin: 1.8px;
 }
 
 .flex-container .flex-col-3 {
@@ -25,14 +25,9 @@
 
 .flex-container .flex-btn {
   width: 100%;
-  padding: 1em;
-  font-size: .9em;
-  margin: .3em;
+  padding: 10px;
+  font-size: 14px;
   color: #ffffff;
-  text-decoration: none;
-  -webkit-box-flex: 1;
-      -ms-flex-positive: 1;
-          flex-grow: 1;
   text-align: center;
   font-weight: 600;
 }
@@ -55,5 +50,11 @@
 
 .flex-btn-green {
   background-color: #008000;
+}
+
+.flex-label {
+  padding: 10px;
+  color: white;
+  font-weight: 600;
 }
 /*# sourceMappingURL=game.component.css.map */

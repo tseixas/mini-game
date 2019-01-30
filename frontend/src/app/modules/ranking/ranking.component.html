@@ -1,3 +1,6 @@
-<p>
-  ranking works!
-</p>
+<div *ngIf="ranking && ranking.length">
+  <p *ngFor="let item of ranking; let i = index">
+    <span class="font-weight-bold">{{i + 1}}º </span>
+    Jogador: {{ item.playerName }} Pontos: {{item.score}}
+  </p>
+</div>

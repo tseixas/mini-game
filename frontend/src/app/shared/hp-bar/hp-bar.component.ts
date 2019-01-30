@@ -14,7 +14,7 @@ export class HpBarComponent implements OnInit, OnChanges {
   ngOnInit() { }
 
   updateBar(hp: number) {
-    if (hp > 10 && hp <= 100) {
+    if (hp > 20 && hp <= 100) {
       return { 'background-color': '#ffa500', 'width': hp + '%' };
     } else {
       return { 'background-color': '#ff1919', 'width': hp + '%' };
@@ -22,7 +22,6 @@ export class HpBarComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(change: SimpleChanges) {
-    //console.log('change', change);
     if (change.hp) {
       const hp = change.hp.currentValue;
 

@@ -7,13 +7,15 @@ import { RankingComponent } from './ranking/ranking.component';
 import { StartingGameComponent } from './starting-game/starting-game.component';
 import { GameComponent } from './game/game.component';
 import { SharedModule } from '../shared/shared.module';
+import { FinishGameComponent } from './finish-game/finish-game.component';
 
 @NgModule({
   declarations: [
     HomeComponent,
     RankingComponent,
     StartingGameComponent,
-    GameComponent
+    GameComponent,
+    FinishGameComponent
   ],
   imports: [
     CommonModule,

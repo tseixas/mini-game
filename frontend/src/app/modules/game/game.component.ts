@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-game",
@@ -16,13 +16,14 @@ export class GameComponent implements OnInit {
   totalShifts = 1;
   specialAttackPlayer = false;
   specialAttackMonster = false;
+  finish = false;
   logs = [];
   rotationPlayer = 0;
   rotationMonster = 0;
+  params: any = {};
+  dataGame: any = {};
 
-  constructor(private router: Router, private dataRoute: ActivatedRoute) {
-    console.log(this.dataRoute.snapshot.params['playerName']);
-  }
+  constructor(private router: Router) { }
 
   ngOnInit() { }
 
@@ -37,12 +38,6 @@ export class GameComponent implements OnInit {
 
       this.logs.push({ 'log': 'Jogador atacou o monstro (-' + hit + ')', 'type': 'player', 'status': 'attack' });
       this.shift(this.PLAYER, hit);
-    } else {
-      const hit = this.randomValue(5, 8);
-      this.hpPlayer -= hit;
-
-      this.logs.push({ 'log': 'Monstro causou dano (-' + hit + ')', 'type': 'monster', 'status': 'attack' });
-      this.shift(this.MONSTER, hit);
     }
   }
 
@@ -54,13 +49,6 @@ export class GameComponent implements OnInit {
 
       this.logs.push({ 'log': 'Jogador usou o ataque especial (-' + hit + ')', 'type': 'player', 'status': 'specialAttack' });
       this.shift(this.PLAYER, hit);
-    } else {
-      this.specialAttackMonster = true;
-      const hit = this.randomValue(7, 11);
-      this.hpPlayer -= hit;
-
-      this.logs.push({ 'log': 'Monstro usou o ataque especial (-' + hit + ')', 'type': 'monster', 'status': 'specialAttack' });
-      this.shift(this.MONSTER, hit);
     }
   }
 
@@ -76,16 +64,6 @@ export class GameComponent implements OnInit {
 
         this.logs.push({ 'log': 'Jogador usou a cura (+' + hit + ')', 'type': 'player', 'status': 'heal' });
         this.shift(this.MONSTER, hit);
-      } else {
-        const hit = this.randomValue(5, 10);
-        this.hpMonster += hit;
-
-        if (this.hpMonster > this.HP_MAX) {
-          this.hpMonster = this.HP_MAX;
-        }
-
-        this.logs.push({ 'log': 'Monstro usou a cura (+' + hit + ')', 'type': 'monster', 'status': 'heal' });
-        this.shift(this.MONSTER, hit);
       }
     }
   }
@@ -98,11 +76,13 @@ export class GameComponent implements OnInit {
    * @memberof GameComponent
    */
   shift(type: number, hit: number) {
-    console.log('Jogadas: ', this.totalShifts, ' - Tipo: ', (type === 0 ? 'Player' : 'Monstro'));
+    console.log('Jogadas: ', this.totalShifts, ' - Tipo: ', (type === this.PLAYER ? 'Player' : 'Monstro'));
     if (this.hpMonster <= 0) {
       this.logs.push({ 'log': 'VOCÊ VENCEU"', 'type': 'player', 'status': 'win' });
+      this.getInfoGame();
     } else if (this.hpPlayer <= 0) {
       this.logs.push({ 'log': 'VOCÊ PERDEU', 'type': 'monster', 'status': 'lose' });
+      this.getInfoGame();
     } else {
       this.totalShifts += 1;
 
@@ -131,22 +111,11 @@ export class GameComponent implements OnInit {
   }
 
   attackMonster() {
-    /*
-     * 0 = this.attack();
-     * 1 = this.specialAttack();
-     * 2 = this.heal();
-     */
-
     if (this.hpMonster < this.HP_MAX) {
-      const attackType = this.randomValue(0, 2);
+      const hit = this.randomValue(6, 12);
+      this.hpPlayer -= hit;
 
-      if (attackType === 0) {
-        this.attack(this.MONSTER);
-      } else if (attackType === 1 && !this.specialAttackMonster) {
-        this.specialAttack(this.MONSTER);
-      } else if (attackType === 2) {
-        this.heal(this.MONSTER);
-      }
+      this.logs.push({ 'log': 'Monstro atacou (-' + hit + ')', 'type': 'monster', 'status': 'attack' });
     }
   }
 
@@ -156,6 +125,29 @@ export class GameComponent implements OnInit {
     this.totalShifts = 1;
     this.specialAttackPlayer = false;
     this.logs = [];
+  }
+
+  getInfoGame() {
+    this.finish = true;
+
+    this.dataGame.score = this.hpPlayer;
+    this.dataGame.shifts = this.totalShifts;
+  }
+
+  labelClass(status, type) {
+    if(status == 'attack' && type == 'player') {
+      return 'flex-btn-info';
+    } else if(status == 'specialAttack'){
+      return 'flex-btn-red';
+    } else if(status == 'heal' || type == 'monster'){
+      return 'flex-btn-green';
+    }else {
+      return 'flex-btn-red';
+    }
+  }
+
+  labelMonster() {
+    return { 'justify-content': 'flex-end', 'display': 'flex' };
   }
 
   quit() {

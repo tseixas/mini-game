@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { map } from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -7,6 +8,11 @@ import { HttpClient } from '@angular/common/http';
 export class PlayerService {
 
   url = 'http://localhost:4000/player';
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  };
 
   constructor(private http: HttpClient) { }
 
@@ -17,6 +23,11 @@ export class PlayerService {
       score: player.score
     };
 
-    this.http.post(`${this.url}/add`, data).subscribe(res => console.log('data: ', data));
+    return this.http.post(`${this.url}/add`, data, this.httpOptions).pipe(map(res => res));
+  }
+
+  findAllPlayer() {
+    return this.http
+      .get(`${this.url}`);
   }
 }
