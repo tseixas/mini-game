@@ -11,13 +11,17 @@ export class GameComponent implements OnInit {
   MAX_ATTACK = 2;
   PLAYER = 0;
   MONSTER = 1;
+  CHANCE_ATTACK_MONSTER = 40;
+  CHANCE_HEAL_PLAYER = 25;
   hpPlayer = 100;
   hpMonster = 100;
   totalShifts = 1;
   specialAttackPlayer = false;
   specialAttackMonster = false;
   finish = false;
+  blockAttack = false;
   logs = [];
+  hitMonster: number;
   rotationPlayer = 0;
   rotationMonster = 0;
   params: any = {};
@@ -25,7 +29,9 @@ export class GameComponent implements OnInit {
 
   constructor(private router: Router) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.attackMonster();
+  }
 
   randomValue(start: number, end: number) {
     return Math.floor(Math.random() * (end - start + 1)) + start;
@@ -38,6 +44,8 @@ export class GameComponent implements OnInit {
 
       this.logs.push({ 'log': 'Jogador atacou o monstro (-' + hit + ')', 'type': 'player', 'status': 'attack' });
       this.shift(this.PLAYER, hit);
+    } else {
+      this.attackMonster();
     }
   }
 
@@ -47,8 +55,14 @@ export class GameComponent implements OnInit {
       const hit = this.randomValue(7, 11);
       this.hpMonster -= hit;
 
+      this.randomHit();
+
       this.logs.push({ 'log': 'Jogador usou o ataque especial (-' + hit + ')', 'type': 'player', 'status': 'specialAttack' });
       this.shift(this.PLAYER, hit);
+
+      this.blockAttack = false;
+    } else {
+      this.attackMonster();
     }
   }
 
@@ -64,7 +78,22 @@ export class GameComponent implements OnInit {
 
         this.logs.push({ 'log': 'Jogador usou a cura (+' + hit + ')', 'type': 'player', 'status': 'heal' });
         this.shift(this.MONSTER, hit);
+      } else {
+        this.attackMonster();
       }
+    }
+  }
+
+  randomHit() {
+    const blockAttackMonster = this.randomValue(1, 100);
+    const healPlayer = this.randomValue(1, 100);
+
+    if (blockAttackMonster <= this.CHANCE_ATTACK_MONSTER) {
+      this.blockAttack = true;
+    }
+
+    if (healPlayer <= this.CHANCE_HEAL_PLAYER && this.hpPlayer < this.HP_MAX) {
+      this.hpPlayer += (this.hitMonster / 2);
     }
   }
 
@@ -76,7 +105,6 @@ export class GameComponent implements OnInit {
    * @memberof GameComponent
    */
   shift(type: number, hit: number) {
-    console.log('Jogadas: ', this.totalShifts, ' - Tipo: ', (type === this.PLAYER ? 'Player' : 'Monstro'));
     if (this.hpMonster <= 0) {
       this.logs.push({ 'log': 'VOCÊ VENCEU"', 'type': 'player', 'status': 'win' });
       this.getInfoGame();
@@ -111,11 +139,11 @@ export class GameComponent implements OnInit {
   }
 
   attackMonster() {
-    if (this.hpMonster < this.HP_MAX) {
-      const hit = this.randomValue(6, 12);
-      this.hpPlayer -= hit;
+    if (!this.blockAttack) {
+      this.hitMonster = this.randomValue(6, 12);
+      this.hpPlayer -= this.hitMonster;
 
-      this.logs.push({ 'log': 'Monstro atacou (-' + hit + ')', 'type': 'monster', 'status': 'attack' });
+      this.logs.push({ 'log': 'Monstro atacou (-' + this.hitMonster + ')', 'type': 'monster', 'status': 'attack' });
     }
   }
 
@@ -135,13 +163,13 @@ export class GameComponent implements OnInit {
   }
 
   labelClass(status, type) {
-    if(status == 'attack' && type == 'player') {
+    if (status == 'attack' && type == 'player') {
       return 'flex-btn-info';
-    } else if(status == 'specialAttack'){
+    } else if (status == 'specialAttack') {
       return 'flex-btn-red';
-    } else if(status == 'heal' || type == 'monster'){
+    } else if (status == 'heal' || type == 'monster') {
       return 'flex-btn-green';
-    }else {
+    } else {
       return 'flex-btn-red';
     }
   }
