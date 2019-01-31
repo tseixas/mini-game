@@ -6,7 +6,7 @@ Simple game using Angular 7, NodeJS, Bootstrap 4 e FlexBox.
 
 Mini Project using:
 - Angular 7
-- NodeJS
+- NodeJS (ExpressJS)
 - Bootstrap 4
 - FlexBox
 
@@ -16,11 +16,12 @@ Mini Project using:
 - NPM
 
 
-### Running
+## Running
 
+### FrontEnd
 Install all dependecies
 ```
-npm install
+cd frontend && npm install
 ```
 
 run and open
@@ -28,6 +29,16 @@ run and open
 ng serve -o
 ```
 
+### BackEnd
+Install all dependecies
+```
+cd backend && npm install
+```
+
+run and open
+```
+npm start or npm run start
+```
 
 
 
